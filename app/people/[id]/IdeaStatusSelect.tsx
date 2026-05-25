@@ -1,0 +1,40 @@
+'use client'
+
+import { useState } from 'react'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { toast } from 'sonner'
+
+const STATUSES = ['IDEA', 'ORDERED', 'BOUGHT', 'GIVEN'] as const
+
+export function IdeaStatusSelect({ personId, ideaId, status: initialStatus }: { personId: string; ideaId: string; status: string }) {
+  const [status, setStatus] = useState(initialStatus)
+
+  async function handleChange(val: string | null) {
+    if (!val) return
+    const res = await fetch(`/api/people/${personId}/ideas/${ideaId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: val }),
+    })
+    if (res.ok) {
+      setStatus(val)
+    } else {
+      toast.error('Failed to update status')
+    }
+  }
+
+  return (
+    <Select value={status} onValueChange={handleChange}>
+      <SelectTrigger className="w-28 h-7 text-xs">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {STATUSES.map((s) => (
+          <SelectItem key={s} value={s} className="text-xs">
+            {s}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  )
+}

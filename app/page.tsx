@@ -1,65 +1,92 @@
-import Image from "next/image";
+import Link from 'next/link'
+import { prisma } from '@/lib/prisma'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { buttonVariants } from '@/components/ui/button'
+import { getNotifications } from '@/lib/notifications'
 
-export default function Home() {
+export default async function DashboardPage() {
+  const [people, upcoming] = await Promise.all([
+    prisma.person.findMany({
+      orderBy: { name: 'asc' },
+      include: {
+        _count: { select: { giftIdeas: true, givenGifts: true } },
+      },
+    }),
+    getNotifications(),
+  ])
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <Link href="/people/new" className={buttonVariants()}>Add Person</Link>
+      </div>
+
+      {upcoming.length > 0 && (
+        <section>
+          <h2 className="text-lg font-semibold mb-3">Upcoming occasions</h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {upcoming.map((n, i) => (
+              <Link key={i} href={`/people/${n.personId}`}>
+                <div className="border rounded-lg p-3 hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium">{n.personName}</span>
+                    <span className="text-sm text-muted-foreground">
+                      {n.occasionName} &mdash;{' '}
+                      {n.daysUntil === 0 ? 'Today!' : `${n.daysUntil}d`}
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {n.giftIdeas.length} idea{n.giftIdeas.length !== 1 ? 's' : ''} planned
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section>
+        <h2 className="text-lg font-semibold mb-3">People</h2>
+        {people.length === 0 ? (
+          <p className="text-muted-foreground">
+            No people yet.{' '}
+            <Link href="/people/new" className="underline">
+              Add someone
+            </Link>{' '}
+            to get started.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {people.map((p) => (
+              <Link key={p.id} href={`/people/${p.id}`}>
+                <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base">{p.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-sm text-muted-foreground space-y-1">
+                      {p.birthday && (
+                        <p>
+                          🎂{' '}
+                          {new Date(p.birthday).toLocaleDateString('en', {
+                            month: 'long',
+                            day: 'numeric',
+                          })}
+                        </p>
+                      )}
+                      <p>
+                        {p._count.giftIdeas} idea{p._count.giftIdeas !== 1 ? 's' : ''} &middot;{' '}
+                        {p._count.givenGifts} given
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
-  );
+  )
 }

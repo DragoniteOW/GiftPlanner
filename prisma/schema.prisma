@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+model Person {
+  id          String       @id @default(cuid())
+  name        String
+  birthday    DateTime?
+  notes       String?
+  shareToken  String       @unique @default(cuid())
+  createdAt   DateTime     @default(now())
+  giftIdeas   GiftIdea[]
+  givenGifts  GivenGift[]
+  events      PersonEvent[]
+}
+
+model Occasion {
+  id         String        @id @default(cuid())
+  name       String        @unique
+  isBuiltIn  Boolean       @default(false)
+  createdAt  DateTime      @default(now())
+  giftIdeas  GiftIdea[]
+  givenGifts GivenGift[]
+  events     PersonEvent[]
+}
+
+model PersonEvent {
+  id         String   @id @default(cuid())
+  personId   String
+  occasionId String
+  date       DateTime
+  notes      String?
+  person     Person   @relation(fields: [personId], references: [id], onDelete: Cascade)
+  occasion   Occasion @relation(fields: [occasionId], references: [id])
+}
+
+model GiftIdea {
+  id         String     @id @default(cuid())
+  personId   String
+  occasionId String?
+  title      String
+  notes      String?
+  todoNotes  String?
+  imageUrl   String?
+  status     String     @default("IDEA")
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  person     Person     @relation(fields: [personId], references: [id], onDelete: Cascade)
+  occasion   Occasion?  @relation(fields: [occasionId], references: [id])
+  links      GiftLink[]
+  givenGift  GivenGift?
+}
+
+model GiftLink {
+  id         String   @id @default(cuid())
+  giftIdeaId String
+  url        String
+  label      String?
+  giftIdea   GiftIdea @relation(fields: [giftIdeaId], references: [id], onDelete: Cascade)
+}
+
+// GiftStatus values: IDEA | ORDERED | BOUGHT | GIVEN
+model GivenGift {
+  id           String    @id @default(cuid())
+  personId     String
+  occasionId   String?
+  sourceIdeaId String?   @unique
+  title        String
+  notes        String?
+  imageUrl     String?
+  givenDate    DateTime
+  createdAt    DateTime  @default(now())
+  person       Person    @relation(fields: [personId], references: [id], onDelete: Cascade)
+  occasion     Occasion? @relation(fields: [occasionId], references: [id])
+  sourceIdea   GiftIdea? @relation(fields: [sourceIdeaId], references: [id])
+}
