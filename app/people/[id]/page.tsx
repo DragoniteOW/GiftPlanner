@@ -38,7 +38,7 @@ export default async function PersonDetailPage({ params }: Props) {
           <h1 className="text-2xl font-bold">{person.name}</h1>
           {person.birthday && (
             <p className="text-muted-foreground text-sm mt-1">
-              🎂 {new Date(person.birthday).toLocaleDateString('en', { month: 'long', day: 'numeric' })}
+              🎂 {new Date(person.birthday).toLocaleDateString('de', { month: 'long', day: 'numeric' })}
             </p>
           )}
           {person.notes && <p className="text-sm mt-1 text-muted-foreground">{person.notes}</p>}
@@ -116,7 +116,7 @@ export default async function PersonDetailPage({ params }: Props) {
                   <span className="font-medium">{g.title}</span>
                   {g.occasion && <Badge variant="outline" className="ml-2">{g.occasion.name}</Badge>}
                   <p className="text-sm text-muted-foreground">
-                    Given {new Date(g.givenDate).toLocaleDateString()}
+                    Überreicht am {new Date(g.givenDate).toLocaleDateString('de')}
                   </p>
                   {g.notes && <p className="text-sm text-muted-foreground">{g.notes}</p>}
                 </div>
@@ -138,7 +138,7 @@ export default async function PersonDetailPage({ params }: Props) {
                 <div>
                   <span className="font-medium">{ev.occasion.name}</span>
                   <p className="text-sm text-muted-foreground">
-                    {new Date(ev.date).toLocaleDateString()}
+                    {new Date(ev.date).toLocaleDateString('de')}
                   </p>
                   {ev.notes && <p className="text-sm text-muted-foreground">{ev.notes}</p>}
                 </div>

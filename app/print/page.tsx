@@ -70,7 +70,7 @@ export default async function PrintPage() {
                       <tr key={g.id}>
                         <td className="py-1 pr-4">{g.title}</td>
                         <td className="py-1 pr-4 text-muted-foreground">{g.occasion?.name ?? '—'}</td>
-                        <td className="py-1">{new Date(g.givenDate).toLocaleDateString()}</td>
+                        <td className="py-1">{new Date(g.givenDate).toLocaleDateString('de')}</td>
                       </tr>
                     ))}
                   </tbody>
