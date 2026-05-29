@@ -30,34 +30,34 @@ export default function PromoteIdeaPage() {
       body: JSON.stringify({ givenDate: form.givenDate, occasionId: form.occasionId || null }),
     })
     if (res.ok) {
-      toast.success('Marked as given!')
+      toast.success('Als überreicht markiert!')
       router.push(`/people/${personId}`)
     } else {
-      toast.error('Failed to promote')
+      toast.error('Fehler beim Markieren')
       setSaving(false)
     }
   }
 
   return (
     <div className="max-w-sm space-y-6">
-      <h1 className="text-2xl font-bold">Mark Gift as Given</h1>
+      <h1 className="text-2xl font-bold">Geschenk als überreicht markieren</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1">
-          <Label htmlFor="givenDate">Date given *</Label>
+          <Label htmlFor="givenDate">Überreicht am *</Label>
           <Input id="givenDate" type="date" value={form.givenDate} onChange={(e) => setForm({ ...form, givenDate: e.target.value })} required />
         </div>
         <div className="space-y-1">
-          <Label>Occasion</Label>
+          <Label>Anlass</Label>
           <Select value={form.occasionId} onValueChange={(v) => setForm({ ...form, occasionId: v ?? '' })}>
-            <SelectTrigger><SelectValue placeholder="Select occasion" /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder="Anlass auswählen" /></SelectTrigger>
             <SelectContent>
               {occasions.map((o) => <SelectItem key={o.id} value={o.id}>{o.name}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
         <div className="flex gap-2">
-          <Button type="submit" disabled={saving}>{saving ? 'Saving…' : 'Confirm'}</Button>
-          <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
+          <Button type="submit" disabled={saving}>{saving ? 'Wird gespeichert…' : 'Bestätigen'}</Button>
+          <Button type="button" variant="outline" onClick={() => router.back()}>Abbrechen</Button>
         </div>
       </form>
     </div>

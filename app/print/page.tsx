@@ -21,7 +21,7 @@ export default async function PrintPage() {
   return (
     <div>
       <div className="print:hidden mb-6 flex items-center gap-4">
-        <h1 className="text-2xl font-bold">Print / Export</h1>
+        <h1 className="text-2xl font-bold">Drucken / Exportieren</h1>
         <PrintButton />
       </div>
 
@@ -32,12 +32,12 @@ export default async function PrintPage() {
 
             {person.giftIdeas.length > 0 && (
               <div className="mb-4">
-                <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground mb-2">Gift Ideas</h3>
+                <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground mb-2">Geschenkideen</h3>
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="text-left text-muted-foreground">
-                      <th className="pb-1 pr-4">Title</th>
-                      <th className="pb-1 pr-4">Occasion</th>
+                      <th className="pb-1 pr-4">Titel</th>
+                      <th className="pb-1 pr-4">Anlass</th>
                       <th className="pb-1">Status</th>
                     </tr>
                   </thead>
@@ -56,13 +56,13 @@ export default async function PrintPage() {
 
             {person.givenGifts.length > 0 && (
               <div>
-                <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground mb-2">Past Gifts</h3>
+                <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground mb-2">Vergangene Geschenke</h3>
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="text-left text-muted-foreground">
-                      <th className="pb-1 pr-4">Title</th>
-                      <th className="pb-1 pr-4">Occasion</th>
-                      <th className="pb-1">Date</th>
+                      <th className="pb-1 pr-4">Titel</th>
+                      <th className="pb-1 pr-4">Anlass</th>
+                      <th className="pb-1">Datum</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y">
@@ -79,7 +79,7 @@ export default async function PrintPage() {
             )}
 
             {person.giftIdeas.length === 0 && person.givenGifts.length === 0 && (
-              <p className="text-sm text-muted-foreground">No gifts recorded.</p>
+              <p className="text-sm text-muted-foreground">Keine Geschenke erfasst.</p>
             )}
           </section>
         ))}

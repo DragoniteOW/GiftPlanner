@@ -33,13 +33,13 @@ export default function OccasionsPage() {
       setNewName('')
       load()
     } else {
-      toast.error('Failed to create occasion')
+      toast.error('Anlass konnte nicht erstellt werden')
     }
     setSaving(false)
   }
 
   async function handleDelete(id: string, name: string) {
-    if (!confirm(`Delete "${name}"?`)) return
+    if (!confirm(`„${name}" wirklich löschen?`)) return
     const res = await fetch('/api/occasions', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -49,21 +49,21 @@ export default function OccasionsPage() {
       load()
     } else {
       const data = await res.json()
-      toast.error(data.error ?? 'Failed to delete')
+      toast.error(data.error ?? 'Löschen fehlgeschlagen')
     }
   }
 
   return (
     <div className="max-w-lg space-y-6">
-      <h1 className="text-2xl font-bold">Occasions</h1>
+      <h1 className="text-2xl font-bold">Anlässe</h1>
 
       <form onSubmit={handleCreate} className="flex gap-2">
         <Input
-          placeholder="e.g. Valentine's Day"
+          placeholder="z. B. Valentinstag"
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
         />
-        <Button type="submit" disabled={saving}>Add</Button>
+        <Button type="submit" disabled={saving}>Hinzufügen</Button>
       </form>
 
       <div className="divide-y border rounded-lg">
@@ -71,11 +71,11 @@ export default function OccasionsPage() {
           <div key={o.id} className="flex items-center justify-between px-4 py-3">
             <div className="flex items-center gap-2">
               <span>{o.name}</span>
-              {o.isBuiltIn && <Badge variant="secondary">built-in</Badge>}
+              {o.isBuiltIn && <Badge variant="secondary">Standard</Badge>}
             </div>
             {!o.isBuiltIn && (
               <Button variant="ghost" size="sm" onClick={() => handleDelete(o.id, o.name)}>
-                Delete
+                Löschen
               </Button>
             )}
           </div>

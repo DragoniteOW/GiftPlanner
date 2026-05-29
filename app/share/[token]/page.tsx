@@ -24,12 +24,12 @@ export default async function SharePage({ params }: Props) {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Gift ideas for {person.name}</h1>
-        <p className="text-sm text-muted-foreground mt-1">Read-only view — no login required.</p>
+        <h1 className="text-2xl font-bold">Geschenkideen für {person.name}</h1>
+        <p className="text-sm text-muted-foreground mt-1">Nur-Lese-Ansicht – kein Login erforderlich.</p>
       </div>
 
       {person.giftIdeas.length === 0 ? (
-        <p className="text-muted-foreground">No gift ideas yet.</p>
+        <p className="text-muted-foreground">Noch keine Geschenkideen.</p>
       ) : (
         <div className="space-y-4">
           {person.giftIdeas.map((idea) => (

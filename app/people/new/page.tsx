@@ -29,33 +29,33 @@ export default function NewPersonPage() {
       const person = await res.json()
       router.push(`/people/${person.id}`)
     } else {
-      toast.error('Failed to create person')
+      toast.error('Person konnte nicht erstellt werden')
       setSaving(false)
     }
   }
 
   return (
     <div className="max-w-lg space-y-6">
-      <h1 className="text-2xl font-bold">Add Person</h1>
+      <h1 className="text-2xl font-bold">Person hinzufügen</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1">
           <Label htmlFor="name">Name *</Label>
-          <Input id="name" name="name" required placeholder="e.g. Alice" />
+          <Input id="name" name="name" required placeholder="z. B. Alice" />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="birthday">Birthday</Label>
+          <Label htmlFor="birthday">Geburtstag</Label>
           <Input id="birthday" name="birthday" type="date" />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="notes">Notes / interests</Label>
-          <Textarea id="notes" name="notes" placeholder="Likes cooking, reads sci-fi…" />
+          <Label htmlFor="notes">Notizen / Interessen</Label>
+          <Textarea id="notes" name="notes" placeholder="Kocht gerne, liest Science-Fiction…" />
         </div>
         <div className="flex gap-2">
           <Button type="submit" disabled={saving}>
-            {saving ? 'Saving…' : 'Create Person'}
+            {saving ? 'Wird gespeichert…' : 'Person erstellen'}
           </Button>
           <Button type="button" variant="outline" onClick={() => router.back()}>
-            Cancel
+            Abbrechen
           </Button>
         </div>
       </form>

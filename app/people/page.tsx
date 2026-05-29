@@ -13,12 +13,12 @@ export default async function PeoplePage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">People</h1>
-        <Link href="/people/new" className={buttonVariants()}>Add Person</Link>
+        <h1 className="text-2xl font-bold">Personen</h1>
+        <Link href="/people/new" className={buttonVariants()}>Person hinzufügen</Link>
       </div>
 
       {people.length === 0 ? (
-        <p className="text-muted-foreground">No people yet.</p>
+        <p className="text-muted-foreground">Noch keine Personen.</p>
       ) : (
         <div className="divide-y border rounded-lg">
           {people.map((p) => (
@@ -27,13 +27,13 @@ export default async function PeoplePage() {
                 <p className="font-medium">{p.name}</p>
                 {p.birthday && (
                   <p className="text-sm text-muted-foreground">
-                    🎂 {new Date(p.birthday).toLocaleDateString('en', { month: 'long', day: 'numeric' })}
+                    🎂 {new Date(p.birthday).toLocaleDateString('de', { month: 'long', day: 'numeric' })}
                   </p>
                 )}
               </div>
               <div className="text-sm text-muted-foreground text-right">
-                <p>{p._count.giftIdeas} ideas</p>
-                <p>{p._count.givenGifts} given</p>
+                <p>{p._count.giftIdeas} Ideen</p>
+                <p>{p._count.givenGifts} überreicht</p>
               </div>
             </Link>
           ))}

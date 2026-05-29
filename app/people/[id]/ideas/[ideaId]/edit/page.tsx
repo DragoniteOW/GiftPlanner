@@ -11,6 +11,13 @@ import { toast } from 'sonner'
 
 interface Occasion { id: string; name: string }
 
+const STATUS_LABELS: Record<string, string> = {
+  IDEA:    'Idee',
+  ORDERED: 'Bestellt',
+  BOUGHT:  'Gekauft',
+  GIVEN:   'Überreicht',
+}
+
 export default function EditIdeaPage() {
   const router = useRouter()
   const { id: personId, ideaId } = useParams<{ id: string; ideaId: string }>()
@@ -53,23 +60,23 @@ export default function EditIdeaPage() {
     if (res.ok) {
       router.push(`/people/${personId}`)
     } else {
-      toast.error('Failed to save')
+      toast.error('Speichern fehlgeschlagen')
       setSaving(false)
     }
   }
 
   async function handleDelete() {
-    if (!confirm('Delete this idea?')) return
+    if (!confirm('Diese Idee wirklich löschen?')) return
     await fetch(`/api/people/${personId}/ideas/${ideaId}`, { method: 'DELETE' })
     router.push(`/people/${personId}`)
   }
 
   return (
     <div className="max-w-lg space-y-6">
-      <h1 className="text-2xl font-bold">Edit Idea</h1>
+      <h1 className="text-2xl font-bold">Idee bearbeiten</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1">
-          <Label>Title *</Label>
+          <Label>Titel *</Label>
           <Input value={form.title} onChange={(e) => set('title', e.target.value)} required />
         </div>
         <div className="space-y-1">
@@ -77,29 +84,31 @@ export default function EditIdeaPage() {
           <Select value={form.status} onValueChange={(v) => v && set('status', v)}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
-              {['IDEA', 'ORDERED', 'BOUGHT', 'GIVEN'].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+              {Object.entries(STATUS_LABELS).map(([val, label]) => (
+                <SelectItem key={val} value={val}>{label}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
         <div className="space-y-1">
-          <Label>Occasion</Label>
+          <Label>Anlass</Label>
           <Select value={form.occasionId} onValueChange={(v) => set('occasionId', v ?? '')}>
-            <SelectTrigger><SelectValue placeholder="Any occasion" /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder="Beliebiger Anlass" /></SelectTrigger>
             <SelectContent>
               {occasions.map((o) => <SelectItem key={o.id} value={o.id}>{o.name}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
         <div className="space-y-1">
-          <Label>Notes</Label>
+          <Label>Notizen</Label>
           <Textarea value={form.notes} onChange={(e) => set('notes', e.target.value)} />
         </div>
         <div className="space-y-1">
-          <Label>To-do notes</Label>
+          <Label>Aufgaben</Label>
           <Input value={form.todoNotes} onChange={(e) => set('todoNotes', e.target.value)} />
         </div>
         <div className="space-y-1">
-          <Label>Image URL</Label>
+          <Label>Bild-URL</Label>
           <Input type="url" value={form.imageUrl} onChange={(e) => set('imageUrl', e.target.value)} />
         </div>
         <div className="space-y-2">
@@ -107,17 +116,17 @@ export default function EditIdeaPage() {
           {links.map((l, i) => (
             <div key={i} className="flex gap-2">
               <Input placeholder="https://…" value={l.url} onChange={(e) => setLinks(links.map((x, j) => j === i ? { ...x, url: e.target.value } : x))} />
-              <Input placeholder="Label" className="w-32" value={l.label} onChange={(e) => setLinks(links.map((x, j) => j === i ? { ...x, label: e.target.value } : x))} />
+              <Input placeholder="Bezeichnung" className="w-32" value={l.label} onChange={(e) => setLinks(links.map((x, j) => j === i ? { ...x, label: e.target.value } : x))} />
             </div>
           ))}
           <Button type="button" variant="ghost" size="sm" onClick={() => setLinks([...links, { url: '', label: '' }])}>
-            + Add link
+            + Link hinzufügen
           </Button>
         </div>
         <div className="flex gap-2">
-          <Button type="submit" disabled={saving}>{saving ? 'Saving…' : 'Save'}</Button>
-          <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
-          <Button type="button" variant="destructive" className="ml-auto" onClick={handleDelete}>Delete</Button>
+          <Button type="submit" disabled={saving}>{saving ? 'Wird gespeichert…' : 'Speichern'}</Button>
+          <Button type="button" variant="outline" onClick={() => router.back()}>Abbrechen</Button>
+          <Button type="button" variant="destructive" className="ml-auto" onClick={handleDelete}>Löschen</Button>
         </div>
       </form>
     </div>

@@ -6,6 +6,13 @@ import { toast } from 'sonner'
 
 const STATUSES = ['IDEA', 'ORDERED', 'BOUGHT', 'GIVEN'] as const
 
+const STATUS_LABELS: Record<string, string> = {
+  IDEA:    'Idee',
+  ORDERED: 'Bestellt',
+  BOUGHT:  'Gekauft',
+  GIVEN:   'Überreicht',
+}
+
 export function IdeaStatusSelect({ personId, ideaId, status: initialStatus }: { personId: string; ideaId: string; status: string }) {
   const [status, setStatus] = useState(initialStatus)
 
@@ -19,7 +26,7 @@ export function IdeaStatusSelect({ personId, ideaId, status: initialStatus }: { 
     if (res.ok) {
       setStatus(val)
     } else {
-      toast.error('Failed to update status')
+      toast.error('Status konnte nicht aktualisiert werden')
     }
   }
 
@@ -31,7 +38,7 @@ export function IdeaStatusSelect({ personId, ideaId, status: initialStatus }: { 
       <SelectContent>
         {STATUSES.map((s) => (
           <SelectItem key={s} value={s} className="text-xs">
-            {s}
+            {STATUS_LABELS[s]}
           </SelectItem>
         ))}
       </SelectContent>

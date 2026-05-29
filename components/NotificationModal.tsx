@@ -30,7 +30,7 @@ export function NotificationModal() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Upcoming occasions</DialogTitle>
+          <DialogTitle>Bevorstehende Anlässe</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           {notifications.map((n, i) => (
@@ -41,7 +41,7 @@ export function NotificationModal() {
                 </Link>
                 <Badge variant="secondary">{n.occasionName}</Badge>
                 <span className="text-sm text-muted-foreground ml-auto">
-                  {n.daysUntil === 0 ? 'Today!' : `in ${n.daysUntil} day${n.daysUntil === 1 ? '' : 's'}`}
+                  {n.daysUntil === 0 ? 'Heute!' : `in ${n.daysUntil} ${n.daysUntil === 1 ? 'Tag' : 'Tagen'}`}
                 </span>
               </div>
               {n.giftIdeas.length > 0 ? (
@@ -54,7 +54,7 @@ export function NotificationModal() {
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-muted-foreground pl-2">No gift ideas yet.</p>
+                <p className="text-sm text-muted-foreground pl-2">Noch keine Geschenkideen.</p>
               )}
             </div>
           ))}
@@ -65,15 +65,18 @@ export function NotificationModal() {
 }
 
 function StatusBadge({ status }: { status: string }) {
-  const map: Record<string, string> = {
+  const labels: Record<string, string> = {
+    IDEA: 'Idee', ORDERED: 'Bestellt', BOUGHT: 'Gekauft', GIVEN: 'Überreicht',
+  }
+  const colors: Record<string, string> = {
     IDEA: 'bg-gray-100 text-gray-700',
     ORDERED: 'bg-blue-100 text-blue-700',
     BOUGHT: 'bg-green-100 text-green-700',
     GIVEN: 'bg-purple-100 text-purple-700',
   }
   return (
-    <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${map[status] ?? map.IDEA}`}>
-      {status}
+    <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${colors[status] ?? colors.IDEA}`}>
+      {labels[status] ?? status}
     </span>
   )
 }

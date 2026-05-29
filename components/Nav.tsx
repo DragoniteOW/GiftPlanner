@@ -8,13 +8,13 @@ export function Nav() {
           🎁 Gift Planner
         </Link>
         <Link href="/people" className="text-sm text-muted-foreground hover:text-foreground">
-          People
+          Personen
         </Link>
         <Link href="/occasions" className="text-sm text-muted-foreground hover:text-foreground">
-          Occasions
+          Anlässe
         </Link>
         <Link href="/print" className="text-sm text-muted-foreground hover:text-foreground ml-auto print:hidden">
-          Print List
+          Liste drucken
         </Link>
       </div>
     </nav>

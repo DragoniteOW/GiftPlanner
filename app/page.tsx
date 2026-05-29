@@ -20,13 +20,13 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <Link href="/people/new" className={buttonVariants()}>Add Person</Link>
+        <h1 className="text-2xl font-bold">Übersicht</h1>
+        <Link href="/people/new" className={buttonVariants()}>Person hinzufügen</Link>
       </div>
 
       {upcoming.length > 0 && (
         <section>
-          <h2 className="text-lg font-semibold mb-3">Upcoming occasions</h2>
+          <h2 className="text-lg font-semibold mb-3">Bevorstehende Anlässe</h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {upcoming.map((n, i) => (
               <Link key={i} href={`/people/${n.personId}`}>
@@ -35,11 +35,11 @@ export default async function DashboardPage() {
                     <span className="font-medium">{n.personName}</span>
                     <span className="text-sm text-muted-foreground">
                       {n.occasionName} &mdash;{' '}
-                      {n.daysUntil === 0 ? 'Today!' : `${n.daysUntil}d`}
+                      {n.daysUntil === 0 ? 'Heute!' : `${n.daysUntil}d`}
                     </span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">
-                    {n.giftIdeas.length} idea{n.giftIdeas.length !== 1 ? 's' : ''} planned
+                    {n.giftIdeas.length} Idee{n.giftIdeas.length !== 1 ? 'n' : ''} geplant
                   </p>
                 </div>
               </Link>
@@ -49,14 +49,14 @@ export default async function DashboardPage() {
       )}
 
       <section>
-        <h2 className="text-lg font-semibold mb-3">People</h2>
+        <h2 className="text-lg font-semibold mb-3">Personen</h2>
         {people.length === 0 ? (
           <p className="text-muted-foreground">
-            No people yet.{' '}
+            Noch keine Personen.{' '}
             <Link href="/people/new" className="underline">
-              Add someone
+              Person hinzufügen
             </Link>{' '}
-            to get started.
+            um loszulegen.
           </p>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -71,15 +71,15 @@ export default async function DashboardPage() {
                       {p.birthday && (
                         <p>
                           🎂{' '}
-                          {new Date(p.birthday).toLocaleDateString('en', {
+                          {new Date(p.birthday).toLocaleDateString('de', {
                             month: 'long',
                             day: 'numeric',
                           })}
                         </p>
                       )}
                       <p>
-                        {p._count.giftIdeas} idea{p._count.giftIdeas !== 1 ? 's' : ''} &middot;{' '}
-                        {p._count.givenGifts} given
+                        {p._count.giftIdeas} Idee{p._count.giftIdeas !== 1 ? 'n' : ''} &middot;{' '}
+                        {p._count.givenGifts} überreicht
                       </p>
                     </div>
                   </CardContent>

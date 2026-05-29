@@ -25,9 +25,9 @@ export function AIModal({ personId, onSaveIdea }: Props) {
         body: JSON.stringify({ personId }),
       })
       const data = await res.json()
-      setSuggestions(data.suggestions ?? 'No suggestions returned.')
+      setSuggestions(data.suggestions ?? 'Keine Vorschläge erhalten.')
     } catch {
-      setSuggestions('Failed to fetch suggestions.')
+      setSuggestions('Fehler beim Laden der Vorschläge.')
     } finally {
       setLoading(false)
     }
@@ -38,15 +38,15 @@ export function AIModal({ personId, onSaveIdea }: Props) {
   return (
     <>
       <Button variant="outline" onClick={fetchSuggestions}>
-        AI Suggestions
+        KI-Vorschläge
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>AI Gift Suggestions</DialogTitle>
+            <DialogTitle>KI-Geschenkvorschläge</DialogTitle>
           </DialogHeader>
           {loading ? (
-            <p className="text-sm text-muted-foreground">Thinking…</p>
+            <p className="text-sm text-muted-foreground">Einen Moment…</p>
           ) : (
             <div className="space-y-2">
               {lines.map((line, i) => (
@@ -61,7 +61,7 @@ export function AIModal({ personId, onSaveIdea }: Props) {
                       }}
                       className="text-xs text-blue-600 hover:underline shrink-0"
                     >
-                      Save
+                      Speichern
                     </button>
                   )}
                 </div>

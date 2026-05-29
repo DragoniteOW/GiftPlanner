@@ -39,24 +39,24 @@ export default function NewIdeaPage() {
     if (res.ok) {
       router.push(`/people/${personId}`)
     } else {
-      toast.error('Failed to save idea')
+      toast.error('Idee konnte nicht gespeichert werden')
       setSaving(false)
     }
   }
 
   return (
     <div className="max-w-lg space-y-6">
-      <h1 className="text-2xl font-bold">Add Gift Idea</h1>
+      <h1 className="text-2xl font-bold">Geschenkidee hinzufügen</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1">
-          <Label htmlFor="title">Title *</Label>
-          <Input id="title" value={form.title} onChange={(e) => set('title', e.target.value)} required placeholder="e.g. Blue running shoes" />
+          <Label htmlFor="title">Titel *</Label>
+          <Input id="title" value={form.title} onChange={(e) => set('title', e.target.value)} required placeholder="z. B. Blaue Laufschuhe" />
         </div>
 
         <div className="space-y-1">
-          <Label>Occasion</Label>
+          <Label>Anlass</Label>
           <Select value={form.occasionId} onValueChange={(v) => set('occasionId', v ?? '')}>
-            <SelectTrigger><SelectValue placeholder="Any occasion" /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder="Beliebiger Anlass" /></SelectTrigger>
             <SelectContent>
               {occasions.map((o) => <SelectItem key={o.id} value={o.id}>{o.name}</SelectItem>)}
             </SelectContent>
@@ -64,18 +64,18 @@ export default function NewIdeaPage() {
         </div>
 
         <div className="space-y-1">
-          <Label htmlFor="notes">Notes</Label>
-          <Textarea id="notes" value={form.notes} onChange={(e) => set('notes', e.target.value)} placeholder="Details, size, colour…" />
+          <Label htmlFor="notes">Notizen</Label>
+          <Textarea id="notes" value={form.notes} onChange={(e) => set('notes', e.target.value)} placeholder="Details, Größe, Farbe…" />
         </div>
 
         <div className="space-y-1">
-          <Label htmlFor="todoNotes">To-do notes</Label>
-          <Input id="todoNotes" value={form.todoNotes} onChange={(e) => set('todoNotes', e.target.value)} placeholder="Still need to check the price…" />
+          <Label htmlFor="todoNotes">Aufgaben</Label>
+          <Input id="todoNotes" value={form.todoNotes} onChange={(e) => set('todoNotes', e.target.value)} placeholder="Preis noch prüfen…" />
         </div>
 
         <div className="space-y-1">
-          <Label htmlFor="imageUrl">Image URL</Label>
-          <Input id="imageUrl" type="url" value={form.imageUrl} onChange={(e) => set('imageUrl', e.target.value)} placeholder="https://example.com/image.jpg" />
+          <Label htmlFor="imageUrl">Bild-URL</Label>
+          <Input id="imageUrl" type="url" value={form.imageUrl} onChange={(e) => set('imageUrl', e.target.value)} placeholder="https://example.com/bild.jpg" />
         </div>
 
         <div className="space-y-2">
@@ -83,17 +83,17 @@ export default function NewIdeaPage() {
           {links.map((l, i) => (
             <div key={i} className="flex gap-2">
               <Input placeholder="https://…" value={l.url} onChange={(e) => setLinks(links.map((x, j) => j === i ? { ...x, url: e.target.value } : x))} />
-              <Input placeholder="Label" className="w-32" value={l.label} onChange={(e) => setLinks(links.map((x, j) => j === i ? { ...x, label: e.target.value } : x))} />
+              <Input placeholder="Bezeichnung" className="w-32" value={l.label} onChange={(e) => setLinks(links.map((x, j) => j === i ? { ...x, label: e.target.value } : x))} />
             </div>
           ))}
           <Button type="button" variant="ghost" size="sm" onClick={() => setLinks([...links, { url: '', label: '' }])}>
-            + Add link
+            + Link hinzufügen
           </Button>
         </div>
 
         <div className="flex gap-2">
-          <Button type="submit" disabled={saving}>{saving ? 'Saving…' : 'Add Idea'}</Button>
-          <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
+          <Button type="submit" disabled={saving}>{saving ? 'Wird gespeichert…' : 'Idee hinzufügen'}</Button>
+          <Button type="button" variant="outline" onClick={() => router.back()}>Abbrechen</Button>
         </div>
       </form>
     </div>

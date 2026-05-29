@@ -31,38 +31,38 @@ export default function NewOccasionPage() {
       body: JSON.stringify(form),
     })
     if (res.ok) {
-      toast.success('Occasion added!')
+      toast.success('Anlass hinzugefügt!')
       router.push(`/people/${personId}`)
     } else {
-      toast.error('Failed to add occasion')
+      toast.error('Anlass konnte nicht hinzugefügt werden')
       setSaving(false)
     }
   }
 
   return (
     <div className="max-w-sm space-y-6">
-      <h1 className="text-2xl font-bold">Add Occasion</h1>
+      <h1 className="text-2xl font-bold">Anlass hinzufügen</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1">
-          <Label>Occasion type *</Label>
+          <Label>Anlass *</Label>
           <Select value={form.occasionId} onValueChange={(v) => setForm({ ...form, occasionId: v ?? '' })} required>
-            <SelectTrigger><SelectValue placeholder="Select…" /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder="Auswählen…" /></SelectTrigger>
             <SelectContent>
               {occasions.map((o) => <SelectItem key={o.id} value={o.id}>{o.name}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
         <div className="space-y-1">
-          <Label>Date *</Label>
+          <Label>Datum *</Label>
           <Input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} required />
         </div>
         <div className="space-y-1">
-          <Label>Notes</Label>
+          <Label>Notizen</Label>
           <Textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
         </div>
         <div className="flex gap-2">
-          <Button type="submit" disabled={saving}>{saving ? 'Saving…' : 'Add'}</Button>
-          <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
+          <Button type="submit" disabled={saving}>{saving ? 'Wird gespeichert…' : 'Hinzufügen'}</Button>
+          <Button type="button" variant="outline" onClick={() => router.back()}>Abbrechen</Button>
         </div>
       </form>
     </div>

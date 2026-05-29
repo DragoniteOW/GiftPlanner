@@ -44,8 +44,8 @@ export default async function PersonDetailPage({ params }: Props) {
           {person.notes && <p className="text-sm mt-1 text-muted-foreground">{person.notes}</p>}
         </div>
         <div className="flex gap-2 flex-wrap">
-          <Link href={`/people/${id}/edit`} className={buttonVariants({ variant: 'outline', size: 'sm' })}>Edit</Link>
-          <Link href={`/people/${id}/ideas/new`} className={buttonVariants({ size: 'sm' })}>+ Idea</Link>
+          <Link href={`/people/${id}/edit`} className={buttonVariants({ variant: 'outline', size: 'sm' })}>Bearbeiten</Link>
+          <Link href={`/people/${id}/ideas/new`} className={buttonVariants({ size: 'sm' })}>+ Idee</Link>
           <AIModal personId={id} />
         </div>
       </div>
@@ -54,14 +54,14 @@ export default async function PersonDetailPage({ params }: Props) {
 
       <Tabs defaultValue="ideas">
         <TabsList>
-          <TabsTrigger value="ideas">Gift Ideas ({person.giftIdeas.length})</TabsTrigger>
-          <TabsTrigger value="given">Past Gifts ({person.givenGifts.length})</TabsTrigger>
-          <TabsTrigger value="events">Occasions ({person.events.length})</TabsTrigger>
+          <TabsTrigger value="ideas">Geschenkideen ({person.giftIdeas.length})</TabsTrigger>
+          <TabsTrigger value="given">Vergangene Geschenke ({person.givenGifts.length})</TabsTrigger>
+          <TabsTrigger value="events">Anlässe ({person.events.length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="ideas" className="space-y-3 mt-4">
           {person.giftIdeas.length === 0 ? (
-            <p className="text-muted-foreground">No ideas yet.</p>
+            <p className="text-muted-foreground">Noch keine Ideen.</p>
           ) : (
             person.giftIdeas.map((idea) => (
               <div key={idea.id} className="border rounded-lg p-4 space-y-2">
@@ -93,9 +93,9 @@ export default async function PersonDetailPage({ params }: Props) {
                   <div className="flex flex-col items-end gap-2 shrink-0">
                     <IdeaStatusSelect personId={id} ideaId={idea.id} status={idea.status} />
                     <div className="flex gap-1">
-                      <Link href={`/people/${id}/ideas/${idea.id}/edit`} className={buttonVariants({ variant: 'ghost', size: 'sm' })}>Edit</Link>
+                      <Link href={`/people/${id}/ideas/${idea.id}/edit`} className={buttonVariants({ variant: 'ghost', size: 'sm' })}>Bearbeiten</Link>
                       {idea.status !== 'GIVEN' && (
-                        <Link href={`/people/${id}/ideas/${idea.id}/promote`} className={buttonVariants({ variant: 'ghost', size: 'sm' })}>Mark Given</Link>
+                        <Link href={`/people/${id}/ideas/${idea.id}/promote`} className={buttonVariants({ variant: 'ghost', size: 'sm' })}>Als überreicht markieren</Link>
                       )}
                     </div>
                   </div>
@@ -106,9 +106,9 @@ export default async function PersonDetailPage({ params }: Props) {
         </TabsContent>
 
         <TabsContent value="given" className="space-y-3 mt-4">
-          <Link href={`/people/${id}/ideas/new?given=1`} className={buttonVariants({ size: 'sm', variant: 'outline' })}>Log Given Gift Directly</Link>
+          <Link href={`/people/${id}/ideas/new?given=1`} className={buttonVariants({ size: 'sm', variant: 'outline' })}>Geschenk direkt erfassen</Link>
           {person.givenGifts.length === 0 ? (
-            <p className="text-muted-foreground">No gifts recorded yet.</p>
+            <p className="text-muted-foreground">Noch keine Geschenke erfasst.</p>
           ) : (
             person.givenGifts.map((g) => (
               <div key={g.id} className="border rounded-lg p-4 flex items-start justify-between gap-2">
@@ -129,9 +129,9 @@ export default async function PersonDetailPage({ params }: Props) {
         </TabsContent>
 
         <TabsContent value="events" className="space-y-3 mt-4">
-          <Link href={`/people/${id}/occasions/new`} className={buttonVariants({ size: 'sm', variant: 'outline' })}>Add Occasion</Link>
+          <Link href={`/people/${id}/occasions/new`} className={buttonVariants({ size: 'sm', variant: 'outline' })}>Anlass hinzufügen</Link>
           {person.events.length === 0 ? (
-            <p className="text-muted-foreground">No custom occasions.</p>
+            <p className="text-muted-foreground">Keine eigenen Anlässe.</p>
           ) : (
             person.events.map((ev) => (
               <div key={ev.id} className="border rounded-lg p-3 flex items-center justify-between">
