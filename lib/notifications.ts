@@ -31,8 +31,8 @@ export async function getNotifications(): Promise<Notification[]> {
     },
   })
 
-  const christmasOccasion = await prisma.occasion.findUnique({ where: { name: 'Christmas' } })
-  const birthdayOccasion = await prisma.occasion.findUnique({ where: { name: 'Birthday' } })
+  const christmasOccasion = await prisma.occasion.findUnique({ where: { name: 'Weihnachten' } })
+  const birthdayOccasion = await prisma.occasion.findUnique({ where: { name: 'Geburtstag' } })
 
   const notifications: Notification[] = []
   const isChristmasSeason = today.getMonth() === 11 && today.getDate() >= 1 && today.getDate() <= 24
@@ -50,7 +50,7 @@ export async function getNotifications(): Promise<Notification[]> {
         notifications.push({
           personId: person.id,
           personName: person.name,
-          occasionName: 'Birthday',
+          occasionName: 'Geburtstag',
           daysUntil: days,
           giftIdeas: ideas,
         })
@@ -80,7 +80,7 @@ export async function getNotifications(): Promise<Notification[]> {
       notifications.push({
         personId: person.id,
         personName: person.name,
-        occasionName: 'Christmas',
+        occasionName: 'Weihnachten',
         daysUntil: daysBetween(today, new Date(today.getFullYear(), 11, 25)),
         giftIdeas: ideas,
       })
