@@ -33,7 +33,7 @@ export function IdeaStatusSelect({ personId, ideaId, status: initialStatus }: { 
   return (
     <Select value={status} onValueChange={handleChange}>
       <SelectTrigger className="w-28 h-7 text-xs">
-        <SelectValue />
+        <SelectValue>{STATUS_LABELS[status] ?? status}</SelectValue>
       </SelectTrigger>
       <SelectContent>
         {STATUSES.map((s) => (

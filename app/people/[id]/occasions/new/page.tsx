@@ -46,7 +46,7 @@ export default function NewOccasionPage() {
         <div className="space-y-1">
           <Label>Anlass *</Label>
           <Select value={form.occasionId} onValueChange={(v) => setForm({ ...form, occasionId: v ?? '' })} required>
-            <SelectTrigger><SelectValue placeholder="Auswählen…" /></SelectTrigger>
+            <SelectTrigger><SelectValue>{form.occasionId ? (occasions.find(o => o.id === form.occasionId)?.name ?? 'Auswählen…') : 'Auswählen…'}</SelectValue></SelectTrigger>
             <SelectContent>
               {occasions.map((o) => <SelectItem key={o.id} value={o.id}>{o.name}</SelectItem>)}
             </SelectContent>

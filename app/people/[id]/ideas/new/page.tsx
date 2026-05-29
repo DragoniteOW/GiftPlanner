@@ -56,7 +56,7 @@ export default function NewIdeaPage() {
         <div className="space-y-1">
           <Label>Anlass</Label>
           <Select value={form.occasionId} onValueChange={(v) => set('occasionId', v ?? '')}>
-            <SelectTrigger><SelectValue placeholder="Beliebiger Anlass" /></SelectTrigger>
+            <SelectTrigger><SelectValue>{form.occasionId ? (occasions.find(o => o.id === form.occasionId)?.name ?? 'Beliebiger Anlass') : 'Beliebiger Anlass'}</SelectValue></SelectTrigger>
             <SelectContent>
               {occasions.map((o) => <SelectItem key={o.id} value={o.id}>{o.name}</SelectItem>)}
             </SelectContent>

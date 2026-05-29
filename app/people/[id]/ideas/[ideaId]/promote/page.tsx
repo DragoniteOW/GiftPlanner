@@ -49,7 +49,7 @@ export default function PromoteIdeaPage() {
         <div className="space-y-1">
           <Label>Anlass</Label>
           <Select value={form.occasionId} onValueChange={(v) => setForm({ ...form, occasionId: v ?? '' })}>
-            <SelectTrigger><SelectValue placeholder="Anlass auswählen" /></SelectTrigger>
+            <SelectTrigger><SelectValue>{form.occasionId ? (occasions.find(o => o.id === form.occasionId)?.name ?? 'Anlass auswählen') : 'Anlass auswählen'}</SelectValue></SelectTrigger>
             <SelectContent>
               {occasions.map((o) => <SelectItem key={o.id} value={o.id}>{o.name}</SelectItem>)}
             </SelectContent>
