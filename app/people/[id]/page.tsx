@@ -6,7 +6,6 @@ import { prisma } from '@/lib/prisma'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { buttonVariants } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { StatusBadge } from '@/components/StatusBadge'
 import { AIModal } from '@/components/AIModal'
 import { ShareSection } from './ShareSection'
 import { IdeaStatusSelect } from './IdeaStatusSelect'
@@ -142,7 +141,7 @@ export default async function PersonDetailPage({ params }: Props) {
                   </p>
                   {ev.notes && <p className="text-sm text-muted-foreground">{ev.notes}</p>}
                 </div>
-                <StatusBadge status="IDEA" />
+                <Link href={`/people/${id}/occasions/${ev.id}/edit`} className={buttonVariants({ variant: 'ghost', size: 'sm' })}>Bearbeiten</Link>
               </div>
             ))
           )}
