@@ -3,6 +3,13 @@ export const dynamic = 'force-dynamic'
 import { prisma } from '@/lib/prisma'
 import { PrintButton } from './PrintButton'
 
+const STATUS_LABELS: Record<string, string> = {
+  IDEA:    'Idee',
+  ORDERED: 'Bestellt',
+  BOUGHT:  'Gekauft',
+  GIVEN:   'Überreicht',
+}
+
 export default async function PrintPage() {
   const people = await prisma.person.findMany({
     orderBy: { name: 'asc' },
@@ -46,7 +53,7 @@ export default async function PrintPage() {
                       <tr key={idea.id}>
                         <td className="py-1 pr-4">{idea.title}</td>
                         <td className="py-1 pr-4 text-muted-foreground">{idea.occasion?.name ?? '—'}</td>
-                        <td className="py-1">{idea.status}</td>
+                        <td className="py-1">{STATUS_LABELS[idea.status] ?? idea.status}</td>
                       </tr>
                     ))}
                   </tbody>

@@ -35,7 +35,7 @@ export default async function DashboardPage() {
                     <span className="font-medium">{n.personName}</span>
                     <span className="text-sm text-muted-foreground">
                       {n.occasionName} &mdash;{' '}
-                      {n.daysUntil === 0 ? 'Heute!' : `${n.daysUntil}d`}
+                      {n.daysUntil === 0 ? 'Heute!' : `${n.daysUntil} ${n.daysUntil === 1 ? 'Tag' : 'Tage'}`}
                     </span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">
