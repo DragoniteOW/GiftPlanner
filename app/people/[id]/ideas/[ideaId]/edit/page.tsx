@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -15,7 +16,6 @@ const STATUS_LABELS: Record<string, string> = {
   IDEA:    'Idee',
   ORDERED: 'Bestellt',
   BOUGHT:  'Gekauft',
-  GIVEN:   'Überreicht',
 }
 
 export default function EditIdeaPage() {
@@ -123,9 +123,12 @@ export default function EditIdeaPage() {
             + Link hinzufügen
           </Button>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button type="submit" disabled={saving}>{saving ? 'Wird gespeichert…' : 'Speichern'}</Button>
           <Button type="button" variant="outline" onClick={() => router.back()}>Abbrechen</Button>
+          {form.status !== 'GIVEN' && (
+            <Link href={`/people/${personId}/ideas/${ideaId}/promote`} className={buttonVariants({ variant: 'secondary' })}>Als überreicht markieren</Link>
+          )}
           <Button type="button" variant="destructive" className="ml-auto" onClick={handleDelete}>Löschen</Button>
         </div>
       </form>

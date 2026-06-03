@@ -8,7 +8,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { AIModal } from '@/components/AIModal'
 import { ShareSection } from './ShareSection'
-import { IdeaStatusSelect } from './IdeaStatusSelect'
+import { StatusBadge } from '@/components/StatusBadge'
 
 type Props = { params: Promise<{ id: string }> }
 
@@ -53,16 +53,16 @@ export default async function PersonDetailPage({ params }: Props) {
 
       <Tabs defaultValue="ideas">
         <TabsList>
-          <TabsTrigger value="ideas">Geschenkideen ({person.giftIdeas.length})</TabsTrigger>
+          <TabsTrigger value="ideas">Geschenkideen ({person.giftIdeas.filter(i => i.status !== 'GIVEN').length})</TabsTrigger>
           <TabsTrigger value="given">Vergangene Geschenke ({person.givenGifts.length})</TabsTrigger>
           <TabsTrigger value="events">Anlässe ({person.events.length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="ideas" className="space-y-3 mt-4">
-          {person.giftIdeas.length === 0 ? (
+          {person.giftIdeas.filter(i => i.status !== 'GIVEN').length === 0 ? (
             <p className="text-muted-foreground">Noch keine Ideen.</p>
           ) : (
-            person.giftIdeas.map((idea) => (
+            person.giftIdeas.filter(i => i.status !== 'GIVEN').map((idea) => (
               <div key={idea.id} className="border rounded-lg p-4 space-y-2">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-1">
@@ -90,12 +90,10 @@ export default async function PersonDetailPage({ params }: Props) {
                     )}
                   </div>
                   <div className="flex flex-col items-end gap-2 shrink-0">
-                    <IdeaStatusSelect personId={id} ideaId={idea.id} status={idea.status} />
+                    <StatusBadge status={idea.status} />
                     <div className="flex gap-1">
                       <Link href={`/people/${id}/ideas/${idea.id}/edit`} className={buttonVariants({ variant: 'ghost', size: 'sm' })}>Bearbeiten</Link>
-                      {idea.status !== 'GIVEN' && (
-                        <Link href={`/people/${id}/ideas/${idea.id}/promote`} className={buttonVariants({ variant: 'ghost', size: 'sm' })}>Als überreicht markieren</Link>
-                      )}
+                      <Link href={`/people/${id}/ideas/${idea.id}/promote`} className={buttonVariants({ variant: 'ghost', size: 'sm' })}>Als überreicht markieren</Link>
                     </div>
                   </div>
                 </div>
