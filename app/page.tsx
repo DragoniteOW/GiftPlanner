@@ -11,7 +11,7 @@ export default async function DashboardPage() {
     prisma.person.findMany({
       orderBy: { name: 'asc' },
       include: {
-        _count: { select: { giftIdeas: true, givenGifts: true } },
+        _count: { select: { giftIdeas: { where: { status: { not: 'GIVEN' } } }, givenGifts: true } },
       },
     }),
     getNotifications(),
