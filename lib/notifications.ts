@@ -45,7 +45,7 @@ export async function getNotifications(): Promise<Notification[]> {
       const days = daysBetween(today, next)
       if (days <= 30) {
         const ideas = person.giftIdeas.filter(
-          (g) => g.occasionId === birthdayOccasion.id || g.occasionId === null
+          (g) => g.status !== 'GIVEN' && (g.occasionId === birthdayOccasion.id || g.occasionId === null)
         )
         notifications.push({
           personId: person.id,
@@ -63,7 +63,7 @@ export async function getNotifications(): Promise<Notification[]> {
       eventDate.setHours(0, 0, 0, 0)
       const days = daysBetween(today, eventDate)
       if (days >= 0 && days <= 30) {
-        const ideas = person.giftIdeas.filter((g) => g.occasionId === event.occasionId)
+        const ideas = person.giftIdeas.filter((g) => g.status !== 'GIVEN' && g.occasionId === event.occasionId)
         notifications.push({
           personId: person.id,
           personName: person.name,
@@ -76,7 +76,7 @@ export async function getNotifications(): Promise<Notification[]> {
 
     // Christmas season notification
     if (isChristmasSeason && christmasOccasion) {
-      const ideas = person.giftIdeas.filter((g) => g.occasionId === christmasOccasion.id)
+      const ideas = person.giftIdeas.filter((g) => g.status !== 'GIVEN' && g.occasionId === christmasOccasion.id)
       notifications.push({
         personId: person.id,
         personName: person.name,
