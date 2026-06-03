@@ -15,6 +15,7 @@ export default async function PrintPage() {
     orderBy: { name: 'asc' },
     include: {
       giftIdeas: {
+        where: { status: { not: 'GIVEN' } },
         include: { occasion: true },
         orderBy: { createdAt: 'desc' },
       },
@@ -40,7 +41,12 @@ export default async function PrintPage() {
             {person.giftIdeas.length > 0 && (
               <div className="mb-4">
                 <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground mb-2">Geschenkideen</h3>
-                <table className="w-full text-sm">
+                <table className="w-full text-sm table-fixed">
+                  <colgroup>
+                    <col className="w-[55%]" />
+                    <col className="w-[25%]" />
+                    <col className="w-[20%]" />
+                  </colgroup>
                   <thead>
                     <tr className="text-left text-muted-foreground">
                       <th className="pb-1 pr-4">Titel</th>
@@ -51,8 +57,8 @@ export default async function PrintPage() {
                   <tbody className="divide-y">
                     {person.giftIdeas.map((idea) => (
                       <tr key={idea.id}>
-                        <td className="py-1 pr-4">{idea.title}</td>
-                        <td className="py-1 pr-4 text-muted-foreground">{idea.occasion?.name ?? '—'}</td>
+                        <td className="py-1 pr-4 truncate">{idea.title}</td>
+                        <td className="py-1 pr-4 text-muted-foreground truncate">{idea.occasion?.name ?? '—'}</td>
                         <td className="py-1">{STATUS_LABELS[idea.status] ?? idea.status}</td>
                       </tr>
                     ))}
@@ -64,7 +70,12 @@ export default async function PrintPage() {
             {person.givenGifts.length > 0 && (
               <div>
                 <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground mb-2">Vergangene Geschenke</h3>
-                <table className="w-full text-sm">
+                <table className="w-full text-sm table-fixed">
+                  <colgroup>
+                    <col className="w-[55%]" />
+                    <col className="w-[25%]" />
+                    <col className="w-[20%]" />
+                  </colgroup>
                   <thead>
                     <tr className="text-left text-muted-foreground">
                       <th className="pb-1 pr-4">Titel</th>
@@ -75,8 +86,8 @@ export default async function PrintPage() {
                   <tbody className="divide-y">
                     {person.givenGifts.map((g) => (
                       <tr key={g.id}>
-                        <td className="py-1 pr-4">{g.title}</td>
-                        <td className="py-1 pr-4 text-muted-foreground">{g.occasion?.name ?? '—'}</td>
+                        <td className="py-1 pr-4 truncate">{g.title}</td>
+                        <td className="py-1 pr-4 text-muted-foreground truncate">{g.occasion?.name ?? '—'}</td>
                         <td className="py-1">{new Date(g.givenDate).toLocaleDateString('de')}</td>
                       </tr>
                     ))}

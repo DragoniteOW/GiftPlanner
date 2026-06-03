@@ -103,7 +103,7 @@ export default async function PersonDetailPage({ params }: Props) {
         </TabsContent>
 
         <TabsContent value="given" className="space-y-3 mt-4">
-          <Link href={`/people/${id}/ideas/new?given=1`} className={buttonVariants({ size: 'sm', variant: 'outline' })}>Geschenk direkt erfassen</Link>
+          <Link href={`/people/${id}/given-gifts/new`} className={buttonVariants({ size: 'sm', variant: 'outline' })}>Geschenk direkt erfassen</Link>
           {person.givenGifts.length === 0 ? (
             <p className="text-muted-foreground">Noch keine Geschenke erfasst.</p>
           ) : (
