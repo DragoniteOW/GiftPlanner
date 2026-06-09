@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gift Planner
 
-## Getting Started
+Eine webbasierte Anwendung zur Verwaltung von Geschenkideen. Entwickelt als Universitätsprojekt im Rahmen des Moduls Software Engineering.
 
-First, run the development server:
+## Live-Anwendung
+
+Die Anwendung ist unter folgender URL erreichbar:
+
+**[https://gift-planner-one.vercel.app/](https://gift-planner-one.vercel.app/)**
+
+## Funktionsübersicht
+
+- **Personen verwalten** – Personen mit Name, Geburtstag und Notizen anlegen
+- **Geschenkideen planen** – Ideen mit Status (Idee → Bestellt → Gekauft), Anlass, Notizen, Links und Bildern
+- **Überreichen-Prozess** – Ideen als überreicht markieren; vergangene Geschenke werden separat geführt
+- **Direkte Erfassung** – Vergangene Geschenke auch ohne vorherige Idee dokumentieren
+- **Anlässe** – Systemanlässe (Geburtstag, Weihnachten) sowie benutzerdefinierte Anlässe pro Person
+- **Benachrichtigungen** – Dashboard-Hinweise auf Anlässe in den nächsten 30 Tagen
+- **KI-Vorschläge** – Personalisierte Geschenkvorschläge via Google Gemini API
+- **Teilen** – Schreibgeschützter Link pro Person, ohne Login für Empfänger
+- **Drucken / Exportieren** – Druckoptimierte Gesamtübersicht aller Personen
+
+## Tech-Stack
+
+| Schicht       | Technologie                     |
+|---------------|---------------------------------|
+| Framework     | Next.js 16 (App Router)         |
+| Sprache       | TypeScript                      |
+| UI            | shadcn/ui · Tailwind CSS v4     |
+| ORM           | Prisma 5                        |
+| Datenbank     | PostgreSQL (Neon)               |
+| KI            | Google Gemini API (gemini-2.5-flash) |
+| Deployment    | Vercel                          |
+
+## Lokale Entwicklung
+
+### Voraussetzungen
+
+- Node.js ≥ 18
+- Zugang zur Neon-Datenbank (Verbindungsstring erforderlich)
+
+### Setup
 
 ```bash
+# Repository klonen
+git clone https://github.com/DragoniteOW/GiftPlanner.git
+cd GiftPlanner
+
+# Abhängigkeiten installieren
+npm install
+
+# Umgebungsvariablen anlegen
+cp .env.example .env
+# .env öffnen und DATABASE_URL sowie GEMINI_API_KEY eintragen
+
+# Datenbankschema anwenden und Seed-Daten einspielen
+npx prisma migrate deploy
+npx prisma db seed
+
+# Entwicklungsserver starten
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Die Anwendung ist unter [http://localhost:3000](http://localhost:3000) erreichbar.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Umgebungsvariablen
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable         | Pflicht | Beschreibung                                      |
+|------------------|---------|---------------------------------------------------|
+| `DATABASE_URL`   | Ja      | PostgreSQL-Verbindungsstring (Neon)               |
+| `GEMINI_API_KEY` | Nein    | Gemini API-Schlüssel für KI-Vorschläge            |
 
-## Learn More
+Ohne `GEMINI_API_KEY` bleibt die KI-Funktion deaktiviert; alle anderen Features sind vollständig nutzbar.
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Jeder Push auf `main` löst automatisch ein Deployment auf Vercel aus. Der Build-Prozess führt dabei Folgendes aus:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+prisma generate → prisma migrate deploy → prisma db seed → next build
+```
 
-## Deploy on Vercel
+Zur erstmaligen Einrichtung von Vercel und Neon siehe [docs/betriebsdokumentation.md](docs/betriebsdokumentation.md).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Dokumentation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Dokument | Inhalt |
+|----------|--------|
+| [Benutzerhandbuch](docs/benutzerhandbuch.md) | Schritt-für-Schritt-Anleitung für Endnutzer |
+| [Fachliche Dokumentation](docs/fachliche-dokumentation.md) | Domänenmodell, Prozesse, Geschäftsregeln |
+| [Technische Dokumentation](docs/technische-dokumentation.md) | Architektur, Datenbankschema, API-Übersicht |
+| [Betriebsdokumentation](docs/betriebsdokumentation.md) | Installation, Konfiguration, Deployment |
